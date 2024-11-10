@@ -12,8 +12,11 @@ public interface UserMapper {
     public Doctor findByDoctorName(String username);
 
     @Insert("insert into doctor(username,password,createtime,updatetime)"+"values (#{username},#{password},now(),now())")
-    public void addUser(String username, String password);
+    public void addDoctor(String username, String password);
 
     @Select("select * from patient where username=#{username}")
-    Patient findByPatientName(String username);
+    public Patient findByPatientName(String username);
+
+    @Insert("insert into patient(username,password,createtime,updatetime)"+"values (#{patientName},#{md5String},now(),now())")
+    public void addPatient(String patientName, String md5String);
 }

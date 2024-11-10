@@ -18,7 +18,7 @@ public class PatientController {
     public Result register(String username,String password){
         Patient patient = userService.findByPatientName(username);
         if(patient == null){
-            userService.registerUser(username,password);
+            userService.registerPatient(username,password);
             return Result.success();
         }else {
             return Result.error("用户名已经被使用!");

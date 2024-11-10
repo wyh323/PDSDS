@@ -18,7 +18,7 @@ public class DoctorController {
     public Result register(String username,String password){
         Doctor doctor = userService.findByDoctorName(username);
         if(doctor == null){
-            userService.registerUser(username,password);
+            userService.registerDoctor(username,password);
             return Result.success();
         }else {
             return Result.error("用户名已经被使用!");

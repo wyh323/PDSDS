@@ -19,13 +19,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(String username, String password) {
+    public void registerDoctor(String doctorName, String password) {
         String Md5String = Md5Util.getMD5String(password);
-        userMapper.addUser(username,Md5String);
+        userMapper.addDoctor(doctorName,Md5String);
     }
 
     @Override
     public Patient findByPatientName(String username) {
         return userMapper.findByPatientName(username);
+    }
+
+    public void registerPatient(String patientName,String password){
+        String Md5String = Md5Util.getMD5String(password);
+        userMapper.addPatient(patientName,Md5String);
     }
 }

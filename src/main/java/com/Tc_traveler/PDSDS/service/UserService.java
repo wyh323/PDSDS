@@ -6,7 +6,9 @@ import com.Tc_traveler.PDSDS.entity.Patient;
 public interface UserService {
     Doctor findByDoctorName(String username);
 
-    void registerUser(String username, String password);
+    void registerDoctor(String username, String password);
 
     Patient findByPatientName(String username);
+
+    void registerPatient(String username, String password);
 }
