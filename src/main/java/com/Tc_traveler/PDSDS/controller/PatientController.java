@@ -3,6 +3,7 @@ package com.Tc_traveler.PDSDS.controller;
 import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.service.UserService;
+import com.Tc_traveler.PDSDS.utils.Md5Util;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,19 @@ public class PatientController {
             return Result.success();
         }else {
             return Result.error("用户名已经被使用!");
+        }
+    }
+
+    @PostMapping("/login")
+    public Result<String> login(String username,String password){
+        Patient patient = userService.findByPatientName(username);
+        if(patient == null){
+            return Result.error("用户名不存在");
+        }
+        if(Md5Util.getMD5String(password).equals(patient.getPassword())){
+            return Result.success("return JWT.");
+        }else {
+            return Result.error("密码错误!");
         }
     }
 }
