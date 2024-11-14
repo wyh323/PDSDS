@@ -1,5 +1,6 @@
 package com.Tc_traveler.PDSDS.service.impl;
 
+import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.mapper.UserMapper;
@@ -33,5 +34,10 @@ public class UserServiceImpl implements UserService {
     public void registerPatient(String patientName,String password){
         String Md5String = Md5Util.getMD5String(password);
         userMapper.addPatient(patientName,Md5String);
+    }
+
+    @Override
+    public Administrator findByAdministratorName(String username) {
+        return userMapper.findByAdministratorName(username);
     }
 }
