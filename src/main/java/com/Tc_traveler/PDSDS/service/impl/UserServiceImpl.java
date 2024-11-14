@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.findByPatientName(username);
     }
 
+    @Override
     public void registerPatient(String patientName,String password){
         String Md5String = Md5Util.getMD5String(password);
         userMapper.addPatient(patientName,Md5String);

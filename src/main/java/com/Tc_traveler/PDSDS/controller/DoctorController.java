@@ -3,6 +3,7 @@ package com.Tc_traveler.PDSDS.controller;
 import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.service.UserService;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ public class DoctorController {
     private UserService userService;
 
     @PostMapping("/register")
-    public Result register(String username,String password){
+    public Result register(@Pattern(regexp = "^\\S{1,15}$") String username,@Pattern(regexp = "^\\S{8,32}$") String password){
         Doctor doctor = userService.findByDoctorName(username);
         if(doctor == null){
             userService.registerDoctor(username,password);
