@@ -41,6 +41,7 @@ public class PatientController {
             Map<String,Object> claims = new HashMap<>();
             claims.put("id",patient.getId());
             claims.put("username",patient.getUsername());
+            claims.put("security",patient.getClass().getSimpleName());
             String token = JwtUtil.genToken(claims);
             return Result.success(token);
         }else {

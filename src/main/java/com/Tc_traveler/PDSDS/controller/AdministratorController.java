@@ -29,6 +29,7 @@ public class AdministratorController {
             Map<String,Object> claims = new HashMap<>();
             claims.put("id",administrator.getId());
             claims.put("username",administrator.getUsername());
+            claims.put("security",administrator.getClass().getSimpleName());
             String token = JwtUtil.genToken(claims);
             return Result.success(token);
         }else {
