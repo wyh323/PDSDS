@@ -1,5 +1,6 @@
 package com.Tc_traveler.PDSDS.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 public class Administrator {
     private Integer id;//主键ID
     private String username;//管理员用户名
+    @JsonIgnore
     private String password;//管理员密码
     private LocalDateTime createTime;//创建时间
     private LocalDateTime updateTime;//更新时间
