@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
 
@@ -19,6 +21,9 @@ public interface UserMapper {
 
     @Insert("insert into doctor(username,password,createtime,updatetime)"+"values (#{username},#{password},now(),now())")
     public void addDoctor(String username, String password);
+
+    @Select("select * from doctor")
+    List<Doctor> findAllDoctor();
 
 
 

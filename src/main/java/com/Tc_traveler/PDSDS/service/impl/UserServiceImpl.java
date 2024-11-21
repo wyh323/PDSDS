@@ -9,6 +9,8 @@ import com.Tc_traveler.PDSDS.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -23,6 +25,11 @@ public class UserServiceImpl implements UserService {
     public void registerDoctor(String doctorName, String password) {
         String Md5String = Md5Util.getMD5String(password);
         userMapper.addDoctor(doctorName,Md5String);
+    }
+
+    @Override
+    public List<Doctor> findAllDoctor() {
+        return userMapper.findAllDoctor();
     }
 
     @Override
