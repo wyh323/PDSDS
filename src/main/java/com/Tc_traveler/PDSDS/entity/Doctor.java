@@ -1,5 +1,6 @@
 package com.Tc_traveler.PDSDS.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 public class Doctor {
     private Integer id;//主键ID
     private String username;//医生用户名
+    @JsonIgnore
     private String password;//医生密码
     private String nickname;//医生姓名
     private String email;//医生邮箱

@@ -9,6 +9,8 @@ import com.Tc_traveler.PDSDS.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -26,6 +28,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Doctor> findAllDoctor() {
+        return userMapper.findAllDoctor();
+    }
+
+    @Override
     public Patient findByPatientName(String username) {
         return userMapper.findByPatientName(username);
     }
@@ -39,5 +46,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Administrator findByAdministratorName(String username) {
         return userMapper.findByAdministratorName(username);
+    }
+
+    @Override
+    public List<Patient> myPatientsInfo(int id) {
+        return userMapper.myPatientsInfo(id);
     }
 }
