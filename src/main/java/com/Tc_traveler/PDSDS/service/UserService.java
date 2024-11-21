@@ -4,7 +4,6 @@ import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface UserService {
@@ -19,4 +18,6 @@ public interface UserService {
     void registerPatient(String username, String password);
 
     Administrator findByAdministratorName(String username);
+
+    List<Patient> myPatientsInfo(int id);
 }

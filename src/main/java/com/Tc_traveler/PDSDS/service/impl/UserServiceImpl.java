@@ -47,4 +47,9 @@ public class UserServiceImpl implements UserService {
     public Administrator findByAdministratorName(String username) {
         return userMapper.findByAdministratorName(username);
     }
+
+    @Override
+    public List<Patient> myPatientsInfo(int id) {
+        return userMapper.myPatientsInfo(id);
+    }
 }

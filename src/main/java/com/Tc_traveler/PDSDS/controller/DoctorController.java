@@ -2,16 +2,16 @@ package com.Tc_traveler.PDSDS.controller;
 
 import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Doctor;
+import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -47,5 +47,17 @@ public class DoctorController {
         }else {
             return Result.error("密码错误!");
         }
+    }
+
+    @GetMapping("/myPatientsInfo")
+    public Result<List<Patient>> myPatientsInfo(@RequestHeader(name = "Authorization")String token){
+        Map<String,Object> map = JwtUtil.parseToken(token);
+        String security = (String) map.get("security");
+        int id = (int) map.get("id");
+        if(!security.equals("Doctor")){
+            return Result.error("您没有足够的权限访问");
+        }
+        List<Patient> patients = userService.myPatientsInfo(id);
+        return Result.success(patients);
     }
 }
