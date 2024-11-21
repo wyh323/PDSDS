@@ -6,6 +6,7 @@ import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
+import com.Tc_traveler.PDSDS.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -50,8 +51,8 @@ public class DoctorController {
     }
 
     @GetMapping("/myPatientsInfo")
-    public Result<List<Patient>> myPatientsInfo(@RequestHeader(name = "Authorization")String token){
-        Map<String,Object> map = JwtUtil.parseToken(token);
+    public Result<List<Patient>> myPatientsInfo(/*@RequestHeader(name = "Authorization")String token*/){
+        Map<String,Object> map = ThreadLocalUtil.get();
         String security = (String) map.get("security");
         int id = (int) map.get("id");
         if(!security.equals("Doctor")){

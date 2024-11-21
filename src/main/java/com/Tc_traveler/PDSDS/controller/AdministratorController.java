@@ -6,6 +6,7 @@ import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
+import com.Tc_traveler.PDSDS.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +39,8 @@ public class AdministratorController {
     }
 
     @GetMapping("/allDoctorInfo")
-    public Result<List<Doctor>> allDoctorInfo(@RequestHeader(name = "Authorization")String token){
-        Map<String,Object> map = JwtUtil.parseToken(token);
+    public Result<List<Doctor>> allDoctorInfo(/*@RequestHeader(name = "Authorization")String token*/){
+        Map<String,Object> map = ThreadLocalUtil.get();
         String security = (String) map.get("security");
         if(!security.equals("Administrator")){
             return Result.error("您没有足够的权限访问");
