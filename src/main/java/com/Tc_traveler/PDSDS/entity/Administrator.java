@@ -2,11 +2,15 @@ package com.Tc_traveler.PDSDS.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Data
 public class Administrator {
+    @NonNull
     private Integer id;//主键ID
     private String username;//管理员用户名
     @JsonIgnore

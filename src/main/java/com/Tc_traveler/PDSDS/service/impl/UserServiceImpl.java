@@ -6,10 +6,13 @@ import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.mapper.UserMapper;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
+import com.Tc_traveler.PDSDS.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,5 +54,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Patient> myPatientsInfo(int id) {
         return userMapper.myPatientsInfo(id);
+    }
+
+    @Override
+    public void update(Doctor doctor) {
+        doctor.setUpdateTime(LocalDateTime.now());
+        Map<String,Object> map = ThreadLocalUtil.get();
+        int id = (int) map.get("id");
+        doctor.setId(id);
+        userMapper.update(doctor);
     }
 }

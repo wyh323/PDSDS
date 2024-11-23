@@ -20,4 +20,6 @@ public interface UserService {
     Administrator findByAdministratorName(String username);
 
     List<Patient> myPatientsInfo(int id);
+
+    void update(Doctor doctor);
 }

@@ -9,6 +9,7 @@ import com.Tc_traveler.PDSDS.utils.Md5Util;
 import com.Tc_traveler.PDSDS.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -60,5 +61,11 @@ public class DoctorController {
         }
         List<Patient> patients = userService.myPatientsInfo(id);
         return Result.success(patients);
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody @Validated Doctor doctor){
+        userService.update(doctor);
+        return Result.success();
     }
 }

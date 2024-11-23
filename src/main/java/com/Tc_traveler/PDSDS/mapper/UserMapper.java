@@ -6,6 +6,7 @@ import com.Tc_traveler.PDSDS.entity.Patient;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -25,6 +26,9 @@ public interface UserMapper {
     @Select("select * from doctor")
     List<Doctor> findAllDoctor();
 
+    @Update("update doctor set nickname=#{nickname},email=#{email},updateTime=#{updateTime} where id=#{id}")
+    void update(Doctor doctor);
+
 
 
 
@@ -40,9 +44,8 @@ public interface UserMapper {
 
 
 
+
     //administrator
     @Select("select * from administrator where username=#{username}")
     Administrator findByAdministratorName(String username);
-
-
 }
