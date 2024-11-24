@@ -7,9 +7,8 @@ import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,5 +46,11 @@ public class PatientController {
         }else {
             return Result.error("密码错误!");
         }
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody @Validated Patient patient){
+        userService.update(patient);
+        return Result.success();
     }
 }

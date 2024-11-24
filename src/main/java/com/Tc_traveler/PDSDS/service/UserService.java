@@ -22,4 +22,6 @@ public interface UserService {
     List<Patient> myPatientsInfo(int id);
 
     void update(Doctor doctor);
+
+    void update(Patient patient);
 }

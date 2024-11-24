@@ -42,10 +42,15 @@ public interface UserMapper {
     @Select("select * from patient where doctor_id=#{id}")
     List<Patient> myPatientsInfo(int id);
 
+    @Update("update patient set nickname=#{nickname},email=#{email},updateTime=#{updateTime}")
+    void update(Patient patient);
+
 
 
 
     //administrator
     @Select("select * from administrator where username=#{username}")
     Administrator findByAdministratorName(String username);
+
+
 }

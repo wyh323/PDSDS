@@ -64,4 +64,13 @@ public class UserServiceImpl implements UserService {
         doctor.setId(id);
         userMapper.update(doctor);
     }
+
+    @Override
+    public void update(Patient patient) {
+        patient.setUpdateTime(LocalDateTime.now());
+        Map<String,Object> map = ThreadLocalUtil.get();
+        int id = (int) map.get("id");
+        patient.setId(id);
+        userMapper.update(patient);
+    }
 }
