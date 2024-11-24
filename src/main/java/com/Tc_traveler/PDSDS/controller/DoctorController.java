@@ -8,6 +8,7 @@ import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
 import com.Tc_traveler.PDSDS.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class DoctorController {
     private UserService userService;
 
     @PostMapping("/register")
-    public Result register(@Pattern(regexp = "^\\S{1,15}$") String username,@Pattern(regexp = "^\\S{8,32}$") String password){
+    public Result register(@Pattern(regexp = "^\\S{1,15}$") String username, @Pattern(regexp = "^\\S{8,32}$") String password){
         Doctor doctor = userService.findByDoctorName(username);
         if(doctor == null){
             userService.registerDoctor(username,password);
@@ -66,6 +67,12 @@ public class DoctorController {
     @PutMapping("/update")
     public Result update(@RequestBody @Validated Doctor doctor){
         userService.update(doctor);
+        return Result.success();
+    }
+
+    @PatchMapping("/updateDoctorAvatar")
+    public Result updateDoctorAvatar(@RequestParam @URL String avatarUrl){
+        userService.updateDoctorAvatar(avatarUrl);
         return Result.success();
     }
 }

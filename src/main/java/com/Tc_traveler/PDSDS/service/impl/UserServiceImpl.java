@@ -73,4 +73,18 @@ public class UserServiceImpl implements UserService {
         patient.setId(id);
         userMapper.update(patient);
     }
+
+    @Override
+    public void updateDoctorAvatar(String avatarUrl) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        userMapper.updateDoctorAvatar(avatarUrl,id);
+    }
+
+    @Override
+    public void updatePatientAvatar(String avatarUrl) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        userMapper.updatePatientAvatar(avatarUrl,id);
+    }
 }

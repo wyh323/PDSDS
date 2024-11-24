@@ -29,6 +29,9 @@ public interface UserMapper {
     @Update("update doctor set nickname=#{nickname},email=#{email},updateTime=#{updateTime} where id=#{id}")
     void update(Doctor doctor);
 
+    @Update("update doctor set pic=#{avatarUrl},updateTime=now() where id=#{id}")
+    void updateDoctorAvatar(String avatarUrl, int id);
+
 
 
 
@@ -45,12 +48,16 @@ public interface UserMapper {
     @Update("update patient set nickname=#{nickname},email=#{email},updateTime=#{updateTime}")
     void update(Patient patient);
 
+    @Update("update patient set pic=#{avatarUrl},updateTime=now() where id=#{id}")
+    void updatePatientAvatar(String avatarUrl, int id);
+
 
 
 
     //administrator
     @Select("select * from administrator where username=#{username}")
     Administrator findByAdministratorName(String username);
+
 
 
 }

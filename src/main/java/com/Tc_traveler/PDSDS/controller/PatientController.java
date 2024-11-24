@@ -6,6 +6,7 @@ import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,12 @@ public class PatientController {
     @PutMapping("/update")
     public Result update(@RequestBody @Validated Patient patient){
         userService.update(patient);
+        return Result.success();
+    }
+
+    @PatchMapping("/updatePatientAvatar")
+    public Result updatePatientAvatar(@RequestParam @URL String avatarUrl){
+        userService.updatePatientAvatar(avatarUrl);
         return Result.success();
     }
 }
