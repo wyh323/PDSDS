@@ -26,12 +26,14 @@ public interface UserMapper {
     @Select("select * from doctor")
     List<Doctor> findAllDoctor();
 
-    @Update("update doctor set nickname=#{nickname},email=#{email},updateTime=#{updateTime} where id=#{id}")
+    @Update("update doctor set nickname=#{nickname},email=#{email},updateTime=#{updateTime},address=#{address} where id=#{id}")
     void update(Doctor doctor);
 
     @Update("update doctor set pic=#{avatarUrl},updateTime=now() where id=#{id}")
     void updateDoctorAvatar(String avatarUrl, int id);
 
+    @Update("update doctor set password=#{md5String},updateTime=now() where id =#{id}")
+    void updateDoctorPwd(String md5String, int id);
 
 
 
@@ -51,7 +53,8 @@ public interface UserMapper {
     @Update("update patient set pic=#{avatarUrl},updateTime=now() where id=#{id}")
     void updatePatientAvatar(String avatarUrl, int id);
 
-
+    @Update("update patient set password=#{md5String},updateTime=now() where id =#{id}")
+    void updatePatientPwd(String md5String, int id);
 
 
     //administrator

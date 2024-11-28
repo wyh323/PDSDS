@@ -25,6 +25,7 @@ public class Doctor {
     @Email
     private String email;//医生邮箱
     private String pic;//医生头像
+    @NotEmpty
     private String address;//上班地点
     private LocalDateTime createTime;//创建时间
     private LocalDateTime updateTime;//更新时间

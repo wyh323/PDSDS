@@ -87,4 +87,18 @@ public class UserServiceImpl implements UserService {
         int id = (int) claims.get("id");
         userMapper.updatePatientAvatar(avatarUrl,id);
     }
+
+    @Override
+    public void updateDoctorPwd(String newPwd) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        userMapper.updateDoctorPwd(Md5Util.getMD5String(newPwd),id);
+    }
+
+    @Override
+    public void updatePatientPwd(String newPwd) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id =(int) claims.get("id");
+        userMapper.updatePatientPwd(Md5Util.getMD5String(newPwd),id);
+    }
 }

@@ -29,4 +29,8 @@ public interface UserService {
     void updateDoctorAvatar(@URL String avatarUrl);
 
     void updatePatientAvatar(@URL String avatarUrl);
+
+    void updateDoctorPwd(String newPwd);
+
+    void updatePatientPwd(String newPwd);
 }
