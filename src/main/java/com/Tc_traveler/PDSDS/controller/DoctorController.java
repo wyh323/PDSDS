@@ -8,7 +8,10 @@ import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
 import com.Tc_traveler.PDSDS.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,7 +25,7 @@ public class DoctorController {
     private UserService userService;
 
     @PostMapping("/register")
-    public Result register(@Pattern(regexp = "^\\S{1,15}$") String username,@Pattern(regexp = "^\\S{8,32}$") String password){
+    public Result register(@Pattern(regexp = "^\\S{1,15}$") String username, @Pattern(regexp = "^\\S{8,32}$") String password){
         Doctor doctor = userService.findByDoctorName(username);
         if(doctor == null){
             userService.registerDoctor(username,password);
@@ -60,5 +63,38 @@ public class DoctorController {
         }
         List<Patient> patients = userService.myPatientsInfo(id);
         return Result.success(patients);
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody @Validated Doctor doctor){
+        userService.update(doctor);
+        return Result.success();
+    }
+
+    @PatchMapping("/updateDoctorAvatar")
+    public Result updateDoctorAvatar(@RequestParam @URL String avatarUrl){
+        userService.updateDoctorAvatar(avatarUrl);
+        return Result.success();
+    }
+
+    @PatchMapping("/updateDoctorPwd")
+    public Result updateDoctorPwd(@RequestBody Map<String,Object> params){
+        String oldPwd = (String) params.get("oldPwd");
+        String newPwd = (String) params.get("newPwd");
+        String rePwd = (String) params.get("rePwd");
+        if(!StringUtils.hasLength(oldPwd)||!StringUtils.hasLength(newPwd)||!StringUtils.hasLength(rePwd)){
+            return Result.error("缺少必要的参数");
+        }
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String username = (String) claims.get("username");
+        Doctor doctor = userService.findByDoctorName(username);
+        if(!doctor.getPassword().equals(Md5Util.getMD5String(oldPwd))){
+            return Result.error("原密码不正确!");
+        }
+        if (!rePwd.equals(newPwd)){
+            return Result.error("两次输入的新密码不相同");
+        }
+        userService.updateDoctorPwd(newPwd);
+        return Result.success();
     }
 }
