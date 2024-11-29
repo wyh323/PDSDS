@@ -3,6 +3,7 @@ package com.Tc_traveler.PDSDS.service;
 import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
+import com.Tc_traveler.PDSDS.entity.table.SDS;
 import org.hibernate.validator.constraints.URL;
 
 import java.util.List;
@@ -26,11 +27,13 @@ public interface UserService {
 
     void update(Patient patient);
 
-    void updateDoctorAvatar(@URL String avatarUrl);
+//    void updateDoctorAvatar(@URL String avatarUrl);
 
-    void updatePatientAvatar(@URL String avatarUrl);
+//    void updatePatientAvatar(@URL String avatarUrl);
 
-    void updateDoctorPwd(String newPwd);
+//    void updateDoctorPwd(String newPwd);
 
-    void updatePatientPwd(String newPwd);
+//    void updatePatientPwd(String newPwd);
+
+//    void sds(SDS sds);
 }

@@ -71,30 +71,30 @@ public class DoctorController {
         return Result.success();
     }
 
-    @PatchMapping("/updateDoctorAvatar")
-    public Result updateDoctorAvatar(@RequestParam @URL String avatarUrl){
-        userService.updateDoctorAvatar(avatarUrl);
-        return Result.success();
-    }
-
-    @PatchMapping("/updateDoctorPwd")
-    public Result updateDoctorPwd(@RequestBody Map<String,Object> params){
-        String oldPwd = (String) params.get("oldPwd");
-        String newPwd = (String) params.get("newPwd");
-        String rePwd = (String) params.get("rePwd");
-        if(!StringUtils.hasLength(oldPwd)||!StringUtils.hasLength(newPwd)||!StringUtils.hasLength(rePwd)){
-            return Result.error("缺少必要的参数");
-        }
-        Map<String,Object> claims = ThreadLocalUtil.get();
-        String username = (String) claims.get("username");
-        Doctor doctor = userService.findByDoctorName(username);
-        if(!doctor.getPassword().equals(Md5Util.getMD5String(oldPwd))){
-            return Result.error("原密码不正确!");
-        }
-        if (!rePwd.equals(newPwd)){
-            return Result.error("两次输入的新密码不相同");
-        }
-        userService.updateDoctorPwd(newPwd);
-        return Result.success();
-    }
+//    @PatchMapping("/updateDoctorAvatar")
+//    public Result updateDoctorAvatar(@RequestParam @URL String avatarUrl){
+//        userService.updateDoctorAvatar(avatarUrl);
+//        return Result.success();
+//    }
+//
+//    @PatchMapping("/updateDoctorPwd")
+//    public Result updateDoctorPwd(@RequestBody Map<String,Object> params){
+//        String oldPwd = (String) params.get("oldPwd");
+//        String newPwd = (String) params.get("newPwd");
+//        String rePwd = (String) params.get("rePwd");
+//        if(!StringUtils.hasLength(oldPwd)||!StringUtils.hasLength(newPwd)||!StringUtils.hasLength(rePwd)){
+//            return Result.error("缺少必要的参数");
+//        }
+//        Map<String,Object> claims = ThreadLocalUtil.get();
+//        String username = (String) claims.get("username");
+//        Doctor doctor = userService.findByDoctorName(username);
+//        if(!doctor.getPassword().equals(Md5Util.getMD5String(oldPwd))){
+//            return Result.error("原密码不正确!");
+//        }
+//        if (!rePwd.equals(newPwd)){
+//            return Result.error("两次输入的新密码不相同");
+//        }
+//        userService.updateDoctorPwd(newPwd);
+//        return Result.success();
+//    }
 }
