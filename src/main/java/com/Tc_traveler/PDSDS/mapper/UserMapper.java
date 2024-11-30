@@ -28,13 +28,13 @@ public interface UserMapper {
     List<Doctor> findAllDoctor();
 
     @Update("update doctor set nickname=#{nickname},email=#{email},updateTime=#{updateTime},address=#{address} where id=#{id}")
-    void update(Doctor doctor);
+    void updateDoctor(Doctor doctor);
 
-//    @Update("update doctor set pic=#{avatarUrl},updateTime=now() where id=#{id}")
-//    void updateDoctorAvatar(String avatarUrl, int id);
-//
-//    @Update("update doctor set password=#{md5String},updateTime=now() where id =#{id}")
-//    void updateDoctorPwd(String md5String, int id);
+    @Update("update doctor set pic=#{avatarUrl},updateTime=now() where id=#{id}")
+    void updateDoctorAvatar(String avatarUrl, int id);
+
+    @Update("update doctor set password=#{md5String},updateTime=now() where id =#{id}")
+    void updateDoctorPwd(String md5String, int id);
 
 
 
@@ -49,22 +49,23 @@ public interface UserMapper {
     List<Patient> myPatientsInfo(int id);
 
     @Update("update patient set nickname=#{nickname},email=#{email},updateTime=#{updateTime}")
-    void update(Patient patient);
+    void updatePatient(Patient patient);
 
-//    @Update("update patient set pic=#{avatarUrl},updateTime=now() where id=#{id}")
-//    void updatePatientAvatar(String avatarUrl, int id);
-//
-//    @Update("update patient set password=#{md5String},updateTime=now() where id =#{id}")
-//    void updatePatientPwd(String md5String, int id);
+    @Update("update patient set pic=#{avatarUrl},updateTime=now() where id=#{id}")
+    void updatePatientAvatar(String avatarUrl, int id);
 
-//    @Insert("insert into sds(patient_id,patient_nickname,createTime,updateTime,grade,result,sds_1,sds_2,sds_3,sds_4,sds_5,sds_6,sds_7,sds_8,sds_9,sds_10,sds_11,sds_12,sds_13,sds_14,sds_15,sds_16,sds_17,sds_18,sds_19,sds_20)"+"values (#{patient_id},#{patient_nickname},now(),now(),#{grade},#{result},#{sds_1},#{sds_2},#{sds_3},#{sds_4},#{sds_5},#{sds_6},#{sds_7},#{sds_8},#{sds_9},#{sds_10},#{sds_11},#{sds_12},#{sds_13},#{sds_14},#{sds_15},#{sds_16},#{sds_17},#{sds_18},#{sds_19},#{sds_20})")
-//    void sds(SDS sds);
+    @Update("update patient set password=#{md5String},updateTime=now() where id =#{id}")
+    void updatePatientPwd(String md5String, int id);
+
+    @Insert("insert into sds(patient_id,patient_nickname,createTime,updateTime,grade,result,sds_1,sds_2,sds_3,sds_4,sds_5,sds_6,sds_7,sds_8,sds_9,sds_10,sds_11,sds_12,sds_13,sds_14,sds_15,sds_16,sds_17,sds_18,sds_19,sds_20)"+"values (#{patient_id},#{patient_nickname},now(),now(),#{grade},#{result},#{sds_1},#{sds_2},#{sds_3},#{sds_4},#{sds_5},#{sds_6},#{sds_7},#{sds_8},#{sds_9},#{sds_10},#{sds_11},#{sds_12},#{sds_13},#{sds_14},#{sds_15},#{sds_16},#{sds_17},#{sds_18},#{sds_19},#{sds_20})")
+    void sds(SDS sds);
 
 
     //administrator
     @Select("select * from administrator where username=#{username}")
     Administrator findByAdministratorName(String username);
 
-
-
+    //sds
+    @Select("select * from sds where patient_id=#{patientId}")
+    SDS findSDSByPatientId(int patientId);
 }

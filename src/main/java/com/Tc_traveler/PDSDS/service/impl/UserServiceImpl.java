@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> map = ThreadLocalUtil.get();
         int id = (int) map.get("id");
         doctor.setId(id);
-        userMapper.update(doctor);
+        userMapper.updateDoctor(doctor);
     }
 
     @Override
@@ -72,42 +72,54 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> map = ThreadLocalUtil.get();
         int id = (int) map.get("id");
         patient.setId(id);
-        userMapper.update(patient);
+        userMapper.updatePatient(patient);
     }
 
-//    @Override
-//    public void updateDoctorAvatar(String avatarUrl) {
-//        Map<String,Object> claims = ThreadLocalUtil.get();
-//        int id = (int) claims.get("id");
-//        userMapper.updateDoctorAvatar(avatarUrl,id);
-//    }
+    @Override
+    public void updateDoctorAvatar(String avatarUrl) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        userMapper.updateDoctorAvatar(avatarUrl,id);
+    }
 
-//    @Override
-//    public void updatePatientAvatar(String avatarUrl) {
-//        Map<String,Object> claims = ThreadLocalUtil.get();
-//        int id = (int) claims.get("id");
-//        userMapper.updatePatientAvatar(avatarUrl,id);
-//    }
+    @Override
+    public void updatePatientAvatar(String avatarUrl) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        userMapper.updatePatientAvatar(avatarUrl,id);
+    }
 
-//    @Override
-//    public void updateDoctorPwd(String newPwd) {
-//        Map<String,Object> claims = ThreadLocalUtil.get();
-//        int id = (int) claims.get("id");
-//        userMapper.updateDoctorPwd(Md5Util.getMD5String(newPwd),id);
-//    }
+    @Override
+    public void updateDoctorPwd(String newPwd) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        userMapper.updateDoctorPwd(Md5Util.getMD5String(newPwd),id);
+    }
 
-//    @Override
-//    public void updatePatientPwd(String newPwd) {
-//        Map<String,Object> claims = ThreadLocalUtil.get();
-//        int id =(int) claims.get("id");
-//        userMapper.updatePatientPwd(Md5Util.getMD5String(newPwd),id);
-//    }
+    @Override
+    public void updatePatientPwd(String newPwd) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id =(int) claims.get("id");
+        userMapper.updatePatientPwd(Md5Util.getMD5String(newPwd),id);
+    }
 
-//    @Override
-//    public void sds(SDS sds) {
-//        Map<String,Object> claims = ThreadLocalUtil.get();
-//        int id = (int) claims.get("id");
-//        sds.setPatient_id(id);
-//        userMapper.sds(sds);
-//    }
+    @Override
+    public void sds(SDS sds) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        sds.setPatient_id(id);
+        userMapper.sds(sds);
+    }
+
+    @Override
+    public SDS findSDSByPatientId(int patient_id) {
+        return userMapper.findSDSByPatientId(patient_id);
+    }
+
+    @Override
+    public SDS findSDSByPatientId() {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int patient_id = (int) claims.get("id");
+        return userMapper.findSDSByPatientId(patient_id);
+    }
 }

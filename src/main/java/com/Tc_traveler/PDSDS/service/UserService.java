@@ -27,13 +27,17 @@ public interface UserService {
 
     void update(Patient patient);
 
-//    void updateDoctorAvatar(@URL String avatarUrl);
+    void updateDoctorAvatar(@URL String avatarUrl);
 
-//    void updatePatientAvatar(@URL String avatarUrl);
+    void updatePatientAvatar(@URL String avatarUrl);
 
-//    void updateDoctorPwd(String newPwd);
+    void updateDoctorPwd(String newPwd);
 
-//    void updatePatientPwd(String newPwd);
+    void updatePatientPwd(String newPwd);
 
-//    void sds(SDS sds);
+    void sds(SDS sds);
+
+    SDS findSDSByPatientId(int patient_id);
+
+    SDS findSDSByPatientId();
 }
