@@ -2,6 +2,7 @@ package com.Tc_traveler.PDSDS.controller;
 
 import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Patient;
+import com.Tc_traveler.PDSDS.entity.table.SDS;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
@@ -13,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,6 +83,42 @@ public class PatientController {
             return Result.error("两次输入的新密码不相同");
         }
         userService.updatePatientPwd(newPwd);
+        return Result.success();
+    }
+
+    @PostMapping("/sds")
+    public Result sds(@RequestBody @Validated SDS origin)  {
+        SDS sdsByPatientId = userService.findSDSByPatientId();
+        if(sdsByPatientId!=null){
+            return Result.error("该病人已经填写过此表");
+        }
+        SDS sds = new SDS();
+        int sum = 0;
+        for(int i=1;i<=20;i++){
+            try {
+                Field oField = origin.getClass().getDeclaredField("sds_"+i);
+                oField.setAccessible(true);
+                int p = (int) oField.get(origin);
+                sum+=p;
+                Field field = sds.getClass().getDeclaredField("sds_"+i);
+                field.setAccessible(true);
+                field.set(sds,p);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Result.error("程序出现内部错误");
+            }
+        }
+        sds.setGrade(sum);
+        if(sum<50){
+            sds.setResult("正常");
+        } else if (sum<60) {
+            sds.setResult("轻微至轻度抑郁");
+        } else if (sum<70) {
+            sds.setResult("中至重度抑郁");
+        } else {
+            sds.setResult("重度抑郁");
+        }
+        userService.sds(sds);
         return Result.success();
     }
 }
