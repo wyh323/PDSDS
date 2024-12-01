@@ -3,6 +3,7 @@ package com.Tc_traveler.PDSDS.controller;
 import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
+import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
@@ -154,6 +155,44 @@ public class PatientController {
             ces_d.setResult("重度抑郁");
         }
         userService.ces_d(ces_d);
+        return Result.success();
+    }
+
+    @PostMapping("/madrs")
+    public Result madrs(@RequestBody @Validated MADRS origin)  {
+        MADRS madrsByPatientId = userService.findMADRSByPatientId();
+        if(madrsByPatientId!=null){
+            return Result.error("该病人已经填写过此表");
+        }
+        MADRS madrs = new MADRS();
+        int sum = 0;
+        for(int i=1;i<=10;i++){
+            try {
+                Field oField = origin.getClass().getDeclaredField("madrs_"+i);
+                oField.setAccessible(true);
+                int p = (int) oField.get(origin);
+                sum+=p;
+                Field field = madrs.getClass().getDeclaredField("madrs_"+i);
+                field.setAccessible(true);
+                field.set(madrs,p);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Result.error("程序出现内部错误");
+            }
+        }
+        madrs.setGrade(sum);
+        if(sum<=11){
+            madrs.setResult("经过检测您处于【缓解期】，为了您和家人的幸福，建议您联系我们，进行更专业的检测。");
+        } else if (sum<=21) {
+            madrs.setResult("经过检测您为【轻度抑郁】，为了您和家人的幸福，建议您联系我们，进行更专业的检测。");
+        } else if (sum<=29){
+            madrs.setResult("经过检测您为【中度抑郁】，为了您和家人的幸福，建议您联系我们，进行更专业的检测。");
+        } else if (sum<=34) {
+            madrs.setResult("经过检测您为【重度抑郁】，为了您和家人的幸福，建议您联系我们，进行更专业的检测。");
+        } else {
+            madrs.setResult("经过检测您为【极度抑郁】，为了您和家人的幸福，建议您联系我们，进行更专业的检测。（以上测试结果仅供参考）");
+        }
+        userService.madrs(madrs);
         return Result.success();
     }
 }
