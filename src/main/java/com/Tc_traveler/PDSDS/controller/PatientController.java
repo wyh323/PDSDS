@@ -147,7 +147,7 @@ public class PatientController {
         }
         ces_d.setGrade(sum);
         if(sum<=15){
-            ces_d.setResult("无异于症状");
+            ces_d.setResult("无抑郁症状");
         } else if (sum<20) {
             ces_d.setResult("有抑郁症状");
         } else {

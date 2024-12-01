@@ -3,6 +3,7 @@ package com.Tc_traveler.PDSDS.service.impl;
 import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
+import com.Tc_traveler.PDSDS.entity.table.CES_D;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
 import com.Tc_traveler.PDSDS.mapper.UserMapper;
 import com.Tc_traveler.PDSDS.service.UserService;
@@ -121,5 +122,25 @@ public class UserServiceImpl implements UserService {
         Map<String,Object> claims = ThreadLocalUtil.get();
         int patient_id = (int) claims.get("id");
         return userMapper.findSDSByPatientId(patient_id);
+    }
+
+    @Override
+    public CES_D findCES_DByPatientId() {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int patient_id = (int) claims.get("id");
+        return userMapper.findCES_DByPatientId(patient_id);
+    }
+
+    @Override
+    public CES_D findCES_DByPatientId(int patient_id) {
+        return userMapper.findCES_DByPatientId(patient_id);
+    }
+
+    @Override
+    public void ces_d(CES_D cesD) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        cesD.setPatient_id(id);
+        userMapper.ces_d(cesD);
     }
 }
