@@ -4,6 +4,7 @@ import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
+import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
 import org.hibernate.validator.constraints.URL;
 
@@ -47,4 +48,10 @@ public interface UserService {
     CES_D findCES_DByPatientId(int patient_id);
 
     void ces_d(CES_D cesD);
+
+    MADRS findMADRSByPatientId();
+
+    MADRS findMADRSByPatientId(int patient_id);
+
+    void madrs(MADRS madrs);
 }

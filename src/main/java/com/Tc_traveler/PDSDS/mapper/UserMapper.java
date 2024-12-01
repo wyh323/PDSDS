@@ -4,6 +4,7 @@ import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
+import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -64,6 +65,9 @@ public interface UserMapper {
     @Insert("insert into ces_d(patient_id,patient_nickname,createTime,updateTime,grade,result,ces_d_1,ces_d_2,ces_d_3,ces_d_4,ces_d_5,ces_d_6,ces_d_7,ces_d_8,ces_d_9,ces_d_10,ces_d_11,ces_d_12,ces_d_13,ces_d_14,ces_d_15,ces_d_16,ces_d_17,ces_d_18,ces_d_19,ces_d_20)"+"values (#{patient_id},#{patient_nickname},now(),now(),#{grade},#{result},#{ces_d_1},#{ces_d_2},#{ces_d_3},#{ces_d_4},#{ces_d_5},#{ces_d_6},#{ces_d_7},#{ces_d_8},#{ces_d_9},#{ces_d_10},#{ces_d_11},#{ces_d_12},#{ces_d_13},#{ces_d_14},#{ces_d_15},#{ces_d_16},#{ces_d_17},#{ces_d_18},#{ces_d_19},#{ces_d_20})")
     void ces_d(CES_D cesD);
 
+    @Insert("insert into madrs(patient_id,patient_nickname,createTime,updateTime,grade,result,madrs_1,madrs_2,madrs_3,madrs_4,madrs_5,madrs_6,madrs_7,madrs_8,madrs_9,madrs_10)"+"values (#{patient_id},#{patient_nickname},now(),now(),#{grade},#{result},#{madrs_1},#{madrs_2},#{madrs_3},#{madrs_4},#{madrs_5},#{madrs_6},#{madrs_7},#{madrs_8},#{madrs_9},#{madrs_10})")
+    void madrs(MADRS madrs);
+
 
     //administrator
     @Select("select * from administrator where username=#{username}")
@@ -74,6 +78,12 @@ public interface UserMapper {
     SDS findSDSByPatientId(int patientId);
 
     //ces_d
-    @Select("select * from ces_d where patient_id=#{patientId};")
+    @Select("select * from ces_d where patient_id=#{patientId}")
     CES_D findCES_DByPatientId(int patientId);
+
+    //madrs
+    @Select("select * from madrs where patient_id=#{patientId}")
+    MADRS findMADRSByPatientId(int patientId);
+
+
 }

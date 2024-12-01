@@ -99,3 +99,24 @@ create table ces_d(
                     ces_d_20 int unsigned comment '第20问',
                     constraint fk_p_id_1 foreign key (patient_id) references patient(id)-- 外键
 )comment '流调用抑郁自评量表';
+USE pdsds;
+create table madrs(
+                      id int unsigned primary key auto_increment comment 'ID',
+                      patient_id int unsigned comment '患者id',
+                      patient_nickname varchar(64) default '' comment '患者姓名',
+                      createTime datetime not null comment '创建时间',
+                      updateTime datetime not null comment '修改时间',
+                      grade int unsigned comment '测试分数',
+                      result varchar(128) default '' comment '测试结果',
+                      madrs_1 int unsigned comment '第1问',
+                      madrs_2 int unsigned comment '第2问',
+                      madrs_3 int unsigned comment '第3问',
+                      madrs_4 int unsigned comment '第4问',
+                      madrs_5 int unsigned comment '第5问',
+                      madrs_6 int unsigned comment '第6问',
+                      madrs_7 int unsigned comment '第7问',
+                      madrs_8 int unsigned comment '第8问',
+                      madrs_9 int unsigned comment '第9问',
+                      madrs_10 int unsigned comment '第10问',
+                      constraint fk_p_id_2 foreign key (patient_id) references patient(id)-- 外键
+)comment '蒙哥马利抑郁评定量表';

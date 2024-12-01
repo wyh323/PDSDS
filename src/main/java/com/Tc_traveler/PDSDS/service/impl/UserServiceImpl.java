@@ -4,6 +4,7 @@ import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
+import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
 import com.Tc_traveler.PDSDS.mapper.UserMapper;
 import com.Tc_traveler.PDSDS.service.UserService;
@@ -142,5 +143,25 @@ public class UserServiceImpl implements UserService {
         int id = (int) claims.get("id");
         cesD.setPatient_id(id);
         userMapper.ces_d(cesD);
+    }
+
+    @Override
+    public MADRS findMADRSByPatientId() {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int patient_id = (int) claims.get("id");
+        return userMapper.findMADRSByPatientId(patient_id);
+    }
+
+    @Override
+    public MADRS findMADRSByPatientId(int patient_id) {
+        return userMapper.findMADRSByPatientId(patient_id);
+    }
+
+    @Override
+    public void madrs(MADRS madrs) {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        madrs.setPatient_id(id);
+        userMapper.madrs(madrs);
     }
 }
