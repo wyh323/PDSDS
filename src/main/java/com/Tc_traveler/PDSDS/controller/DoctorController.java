@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,23 @@ public class DoctorController {
         }
         List<Patient> patients = userService.myPatientsInfo(id);
         return Result.success(patients);
+    }
+
+    @GetMapping("/patientDetail")
+    public Result<List<Object>> patientDetail(@Pattern(regexp = "^\\S{1,15}$")String username){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        Integer doctor_id = (Integer) claims.get("id");
+        Patient patient = userService.findPatientByUsernameAndDoctorId(username,doctor_id);
+        if(patient==null){
+            return Result.error("您名下没有此病人");
+        }
+        ArrayList<Object> patientDetail = new ArrayList<>();
+        int patient_id = patient.getId();
+        patientDetail.add(patient);
+        patientDetail.add(userService.findSDSByPatientId(patient_id));
+        patientDetail.add(userService.findCES_DByPatientId(patient_id));
+        patientDetail.add(userService.findMADRSByPatientId(patient_id));
+        return Result.success(patientDetail);
     }
 
     @PutMapping("/update")
