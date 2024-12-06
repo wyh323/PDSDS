@@ -174,4 +174,11 @@ public class UserServiceImpl implements UserService {
     public void deletePatient(String username, Integer doctorId) {
         userMapper.deletePatient(username,doctorId);
     }
+
+    @Override
+    public Patient findByPatientId() {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        int id = (int) claims.get("id");
+        return userMapper.findByPatientId(id);
+    }
 }

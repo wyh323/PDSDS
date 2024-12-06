@@ -94,7 +94,9 @@ public class PatientController {
         if(sdsByPatientId!=null){
             return Result.error("该病人已经填写过此表");
         }
+        String patient_nickname = userService.findByPatientId().getNickname();
         SDS sds = new SDS();
+        sds.setPatient_nickname(patient_nickname);
         int sum = 0;
         for(int i=1;i<=20;i++){
             try {
@@ -130,7 +132,9 @@ public class PatientController {
         if(ces_dByPatientId!=null){
             return Result.error("该病人已经填写过此表");
         }
+        String patient_nickname = userService.findByPatientId().getNickname();
         CES_D ces_d = new CES_D();
+        ces_d.setPatient_nickname(patient_nickname);
         int sum = 0;
         for(int i=1;i<=20;i++){
             try {
@@ -164,7 +168,9 @@ public class PatientController {
         if(madrsByPatientId!=null){
             return Result.error("该病人已经填写过此表");
         }
+        String patient_nickname = userService.findByPatientId().getNickname();
         MADRS madrs = new MADRS();
+        madrs.setPatient_nickname(patient_nickname);
         int sum = 0;
         for(int i=1;i<=10;i++){
             try {

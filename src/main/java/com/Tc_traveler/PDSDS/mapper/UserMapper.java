@@ -71,6 +71,8 @@ public interface UserMapper {
     @Delete("delete from patient where username=#{username} and doctor_id=#{doctorId}")
     void deletePatient(String username, Integer doctorId);
 
+    @Select("select * from patient where id=#{id}")
+    Patient findByPatientId(int id);
 
     //administrator
     @Select("select * from administrator where username=#{username}")
