@@ -164,4 +164,14 @@ public class UserServiceImpl implements UserService {
         madrs.setPatient_id(id);
         userMapper.madrs(madrs);
     }
+
+    @Override
+    public Patient findPatientByUsernameAndDoctorId(String username, Integer doctorId) {
+        return userMapper.findPatientByUsernameAndDoctorId(username,doctorId);
+    }
+
+    @Override
+    public void deletePatient(String username, Integer doctorId) {
+        userMapper.deletePatient(username,doctorId);
+    }
 }

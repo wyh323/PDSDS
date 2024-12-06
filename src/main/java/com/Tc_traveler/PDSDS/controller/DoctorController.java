@@ -97,4 +97,16 @@ public class DoctorController {
         userService.updateDoctorPwd(newPwd);
         return Result.success();
     }
+
+    @DeleteMapping("/deletePatient")
+    public Result deletePatient(@Pattern(regexp = "^\\S{1,15}$") String username){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        Integer doctor_id = (Integer) claims.get("id");
+        Patient patient = userService.findPatientByUsernameAndDoctorId(username,doctor_id);
+        if(patient==null){
+            return Result.error("您名下没有此病人");
+        }
+        userService.deletePatient(username,doctor_id);
+        return Result.success();
+    }
 }

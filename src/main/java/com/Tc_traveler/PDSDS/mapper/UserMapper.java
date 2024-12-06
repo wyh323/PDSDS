@@ -6,10 +6,7 @@ import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
 import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -68,6 +65,12 @@ public interface UserMapper {
     @Insert("insert into madrs(patient_id,patient_nickname,createTime,updateTime,grade,result,madrs_1,madrs_2,madrs_3,madrs_4,madrs_5,madrs_6,madrs_7,madrs_8,madrs_9,madrs_10)"+"values (#{patient_id},#{patient_nickname},now(),now(),#{grade},#{result},#{madrs_1},#{madrs_2},#{madrs_3},#{madrs_4},#{madrs_5},#{madrs_6},#{madrs_7},#{madrs_8},#{madrs_9},#{madrs_10})")
     void madrs(MADRS madrs);
 
+    @Select("select * from patient where username=#{username} and doctor_id=#{doctorId}")
+    Patient findPatientByUsernameAndDoctorId(String username, Integer doctorId);
+
+    @Delete("delete from patient where username=#{username} and doctor_id=#{doctorId}")
+    void deletePatient(String username, Integer doctorId);
+
 
     //administrator
     @Select("select * from administrator where username=#{username}")
@@ -84,6 +87,7 @@ public interface UserMapper {
     //madrs
     @Select("select * from madrs where patient_id=#{patientId}")
     MADRS findMADRSByPatientId(int patientId);
+
 
 
 }
