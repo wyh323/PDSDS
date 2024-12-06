@@ -34,10 +34,9 @@ create table patient (
     doctor_nickname varchar(64) default '' comment '医生姓名',
     createTime datetime not null comment '创建时间',
     updateTime datetime not null comment '修改时间',
-    constraint fk_d_id foreign key (doctor_id) references doctor(id)-- 外键
+    constraint fk_d_id foreign key (doctor_id) references doctor(id) on delete cascade on update cascade -- 外键
 )comment '患者表';
 -- 抑郁自评量表
-USE pdsds;
 create table sds(
     id int unsigned primary key auto_increment comment 'ID',
     patient_id int unsigned comment '患者id',
@@ -66,9 +65,8 @@ create table sds(
     sds_18 int unsigned comment '第18问',
     sds_19 int unsigned comment '第19问',
     sds_20 int unsigned comment '第20问',
-    constraint fk_p_id foreign key (patient_id) references patient(id)-- 外键
+    constraint fk_p_id foreign key (patient_id) references patient(id) on delete cascade on update cascade -- 外键
 )comment '抑郁自评量表';
-USE pdsds;
 create table ces_d(
                     id int unsigned primary key auto_increment comment 'ID',
                     patient_id int unsigned comment '患者id',
@@ -97,9 +95,8 @@ create table ces_d(
                     ces_d_18 int unsigned comment '第18问',
                     ces_d_19 int unsigned comment '第19问',
                     ces_d_20 int unsigned comment '第20问',
-                    constraint fk_p_id_1 foreign key (patient_id) references patient(id)-- 外键
+                    constraint fk_p_id_1 foreign key (patient_id) references patient(id) on delete cascade on update cascade -- 外键
 )comment '流调用抑郁自评量表';
-USE pdsds;
 create table madrs(
                       id int unsigned primary key auto_increment comment 'ID',
                       patient_id int unsigned comment '患者id',
@@ -118,5 +115,5 @@ create table madrs(
                       madrs_8 int unsigned comment '第8问',
                       madrs_9 int unsigned comment '第9问',
                       madrs_10 int unsigned comment '第10问',
-                      constraint fk_p_id_2 foreign key (patient_id) references patient(id)-- 外键
+                      constraint fk_p_id_2 foreign key (patient_id) references patient(id) on delete cascade on update cascade -- 外键
 )comment '蒙哥马利抑郁评定量表';

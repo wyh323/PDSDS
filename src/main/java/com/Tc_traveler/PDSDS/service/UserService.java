@@ -6,6 +6,7 @@ import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
 import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 
 import java.util.List;
@@ -54,4 +55,10 @@ public interface UserService {
     MADRS findMADRSByPatientId(int patient_id);
 
     void madrs(MADRS madrs);
+
+    Patient findPatientByUsernameAndDoctorId(@Pattern(regexp = "^\\S{1,15}$") String username, Integer doctorId);
+
+    void deletePatient(@Pattern(regexp = "^\\S{1,15}$") String username, Integer doctorId);
+
+    Patient findByPatientId();
 }
