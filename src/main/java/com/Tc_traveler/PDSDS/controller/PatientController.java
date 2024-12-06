@@ -195,4 +195,19 @@ public class PatientController {
         userService.madrs(madrs);
         return Result.success();
     }
+
+    @GetMapping("/getSds")
+    public Result<SDS> getSds(){
+        return Result.success(userService.findSDSByPatientId());
+    }
+
+    @GetMapping("/getCes_d")
+    public Result<CES_D> getCes_d(){
+        return Result.success(userService.findCES_DByPatientId());
+    }
+
+    @GetMapping("/getMadrs")
+    public Result<MADRS> getMadrs(){
+        return Result.success(userService.findMADRSByPatientId());
+    }
 }
