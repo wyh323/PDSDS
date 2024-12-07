@@ -61,4 +61,8 @@ public interface UserService {
     void deletePatient(@Pattern(regexp = "^\\S{1,15}$") String username, Integer doctorId);
 
     Patient findByPatientId();
+
+    List<Patient> findAllPatient();
+
+    void deleteDoctor(@Pattern(regexp = "^\\S{1,15}$") String username);
 }

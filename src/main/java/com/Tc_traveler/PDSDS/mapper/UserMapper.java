@@ -35,6 +35,8 @@ public interface UserMapper {
     @Update("update doctor set password=#{md5String},updateTime=now() where id =#{id}")
     void updateDoctorPwd(String md5String, int id);
 
+    @Delete("delete from doctor where username=#{username}")
+    void deleteDoctor(String username);
 
 
     //patient
@@ -73,6 +75,9 @@ public interface UserMapper {
 
     @Select("select * from patient where id=#{id}")
     Patient findByPatientId(int id);
+
+    @Select("select * from patient")
+    List<Patient> findAllPatient();
 
     //administrator
     @Select("select * from administrator where username=#{username}")

@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Patient> findAllPatient() {
+        return userMapper.findAllPatient();
+    }
+
+    @Override
     public Patient findByPatientName(String username) {
         return userMapper.findByPatientName(username);
     }
@@ -180,5 +185,10 @@ public class UserServiceImpl implements UserService {
         Map<String,Object> claims = ThreadLocalUtil.get();
         int id = (int) claims.get("id");
         return userMapper.findByPatientId(id);
+    }
+
+    @Override
+    public void deleteDoctor(String username) {
+        userMapper.deleteDoctor(username);
     }
 }
