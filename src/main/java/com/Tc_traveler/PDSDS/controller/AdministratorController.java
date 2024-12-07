@@ -3,10 +3,12 @@ package com.Tc_traveler.PDSDS.controller;
 import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Doctor;
+import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
 import com.Tc_traveler.PDSDS.utils.ThreadLocalUtil;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,5 +49,31 @@ public class AdministratorController {
         }
         List<Doctor> results = userService.findAllDoctor();
         return Result.success(results);
+    }
+
+    @GetMapping("/allPatientInfo")
+    public Result<List<Patient>> allPatientInfo(){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Administrator")){
+            return Result.error("您没有足够的权限访问");
+        }
+        List<Patient> result = userService.findAllPatient();
+        return Result.success(result);
+    }
+
+    @DeleteMapping("/deleteDoctor")
+    public Result deleteDoctor(@Pattern(regexp = "^\\S{1,15}$") String username){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Administrator")){
+            return Result.error("您没有足够的权限访问");
+        }
+        Doctor doctor = userService.findByDoctorName(username);
+        if(doctor==null){
+            return Result.error("没有该名医生");
+        }
+        userService.deleteDoctor(username);
+        return Result.success();
     }
 }
