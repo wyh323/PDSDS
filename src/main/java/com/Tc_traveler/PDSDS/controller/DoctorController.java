@@ -69,6 +69,10 @@ public class DoctorController {
     @GetMapping("/patientDetail")
     public Result<List<Object>> patientDetail(@Pattern(regexp = "^\\S{1,15}$")String username){
         Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Doctor")){
+            return Result.error("您没有足够的权限访问");
+        }
         Integer doctor_id = (Integer) claims.get("id");
         Patient patient = userService.findPatientByUsernameAndDoctorId(username,doctor_id);
         if(patient==null){
@@ -85,25 +89,39 @@ public class DoctorController {
 
     @PutMapping("/update")
     public Result update(@RequestBody @Validated Doctor doctor){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Doctor")){
+            return Result.error("您没有足够的权限访问");
+        }
         userService.update(doctor);
         return Result.success();
     }
 
     @PatchMapping("/updateDoctorAvatar")
     public Result updateDoctorAvatar(@RequestParam @URL String avatarUrl){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Doctor")){
+            return Result.error("您没有足够的权限访问");
+        }
         userService.updateDoctorAvatar(avatarUrl);
         return Result.success();
     }
 
     @PatchMapping("/updateDoctorPwd")
     public Result updateDoctorPwd(@RequestBody Map<String,Object> params){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Doctor")){
+            return Result.error("您没有足够的权限访问");
+        }
         String oldPwd = (String) params.get("oldPwd");
         String newPwd = (String) params.get("newPwd");
         String rePwd = (String) params.get("rePwd");
         if(!StringUtils.hasLength(oldPwd)||!StringUtils.hasLength(newPwd)||!StringUtils.hasLength(rePwd)){
             return Result.error("缺少必要的参数");
         }
-        Map<String,Object> claims = ThreadLocalUtil.get();
         String username = (String) claims.get("username");
         Doctor doctor = userService.findByDoctorName(username);
         if(!doctor.getPassword().equals(Md5Util.getMD5String(oldPwd))){
@@ -119,6 +137,10 @@ public class DoctorController {
     @DeleteMapping("/deletePatient")
     public Result deletePatient(@Pattern(regexp = "^\\S{1,15}$") String username){
         Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Doctor")){
+            return Result.error("您没有足够的权限访问");
+        }
         Integer doctor_id = (Integer) claims.get("id");
         Patient patient = userService.findPatientByUsernameAndDoctorId(username,doctor_id);
         if(patient==null){

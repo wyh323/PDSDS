@@ -57,25 +57,39 @@ public class PatientController {
 
     @PutMapping("/update")
     public Result update(@RequestBody @Validated Patient patient){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
         userService.update(patient);
         return Result.success();
     }
 
     @PatchMapping("/updatePatientAvatar")
     public Result updatePatientAvatar(@RequestParam @URL String avatarUrl){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
         userService.updatePatientAvatar(avatarUrl);
         return Result.success();
     }
 
     @PatchMapping("/updatePatientPwd")
     public Result updatePatientPwd(@RequestBody Map<String,Object> params){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
         String oldPwd = (String) params.get("oldPwd");
         String newPwd = (String) params.get("newPwd");
         String rePwd = (String) params.get("rePwd");
         if(!StringUtils.hasLength(oldPwd)||!StringUtils.hasLength(newPwd)||!StringUtils.hasLength(rePwd)){
             return Result.error("缺少必要的参数");
         }
-        Map<String,Object> claims = ThreadLocalUtil.get();
         String username = (String) claims.get("username");
         Patient patient = userService.findByPatientName(username);
         if(!patient.getPassword().equals(Md5Util.getMD5String(oldPwd))){
@@ -90,6 +104,11 @@ public class PatientController {
 
     @PostMapping("/sds")
     public Result sds(@RequestBody @Validated SDS origin)  {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
         SDS sdsByPatientId = userService.findSDSByPatientId();
         if(sdsByPatientId!=null){
             return Result.error("该病人已经填写过此表");
@@ -128,6 +147,11 @@ public class PatientController {
 
     @PostMapping("/ces_d")
     public Result ces_d(@RequestBody @Validated CES_D origin)  {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
         CES_D ces_dByPatientId = userService.findCES_DByPatientId();
         if(ces_dByPatientId!=null){
             return Result.error("该病人已经填写过此表");
@@ -164,6 +188,11 @@ public class PatientController {
 
     @PostMapping("/madrs")
     public Result madrs(@RequestBody @Validated MADRS origin)  {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
         MADRS madrsByPatientId = userService.findMADRSByPatientId();
         if(madrsByPatientId!=null){
             return Result.error("该病人已经填写过此表");
@@ -204,16 +233,31 @@ public class PatientController {
 
     @GetMapping("/getSds")
     public Result<SDS> getSds(){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
         return Result.success(userService.findSDSByPatientId());
     }
 
     @GetMapping("/getCes_d")
     public Result<CES_D> getCes_d(){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
         return Result.success(userService.findCES_DByPatientId());
     }
 
     @GetMapping("/getMadrs")
     public Result<MADRS> getMadrs(){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
         return Result.success(userService.findMADRSByPatientId());
     }
 }
