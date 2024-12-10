@@ -149,4 +149,32 @@ public class DoctorController {
         userService.deletePatient(username,doctor_id);
         return Result.success();
     }
+
+    @GetMapping("/getLastPatient")
+    public Result<List<Patient>> getLastPatient(){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Doctor")){
+            return Result.error("您没有足够的权限访问");
+        }
+        List<Patient> patients = userService.getLastPatient();
+        return Result.success(patients);
+    }
+
+    @PatchMapping("/choosePatient")
+    public Result choosePatient(@Pattern(regexp = "^\\S{1,15}$")String username){
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        String security = (String) claims.get("security");
+        if(!security.equals("Doctor")){
+            return Result.error("您没有足够的权限访问");
+        }
+        Integer doctor_id = (Integer) claims.get("id");
+        Patient patient = userService.findByPatientName(username);
+        if(patient==null){
+            return Result.error("数据库中没有此病人");
+        }
+        patient.setDoctor_id(doctor_id);
+        userService.choosePatient(patient);
+        return Result.success();
+    }
 }

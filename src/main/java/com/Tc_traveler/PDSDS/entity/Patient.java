@@ -25,7 +25,7 @@ public class Patient {
     @Email
     private String email;//患者邮箱
     private String pic;//患者头像
-    private String doctor_id;//医生id
+    private Integer doctor_id;//医生id
     private String doctor_nickname;//医生姓名
     private LocalDateTime createTime;//创建时间
     private LocalDateTime updateTime;//更新时间

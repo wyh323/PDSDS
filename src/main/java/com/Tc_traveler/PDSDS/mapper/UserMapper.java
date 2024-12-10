@@ -79,6 +79,12 @@ public interface UserMapper {
     @Select("select * from patient")
     List<Patient> findAllPatient();
 
+    @Select("select * from patient where doctor_id is null ")
+    List<Patient> getLastPatient();
+
+    @Update("update patient set doctor_id=#{doctor_id} where id=#{id}")
+    void choosePatient(Patient patient);
+
     //administrator
     @Select("select * from administrator where username=#{username}")
     Administrator findByAdministratorName(String username);

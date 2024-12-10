@@ -191,4 +191,14 @@ public class UserServiceImpl implements UserService {
     public void deleteDoctor(String username) {
         userMapper.deleteDoctor(username);
     }
+
+    @Override
+    public List<Patient> getLastPatient() {
+        return userMapper.getLastPatient();
+    }
+
+    @Override
+    public void choosePatient(Patient patient) {
+        userMapper.choosePatient(patient);
+    }
 }
