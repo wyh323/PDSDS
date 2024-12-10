@@ -10,6 +10,7 @@ import com.Tc_traveler.PDSDS.mapper.UserMapper;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
 import com.Tc_traveler.PDSDS.utils.ThreadLocalUtil;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -201,4 +202,11 @@ public class UserServiceImpl implements UserService {
     public void choosePatient(Patient patient) {
         userMapper.choosePatient(patient);
     }
+
+    @Override
+    public void addOrder(@NonNull Integer id, String order) {
+        userMapper.addOrder(id,order);
+    }
+
+
 }

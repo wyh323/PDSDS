@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Consequence {
     private Integer id;
     private Integer patient_id;
-    private String order;
+    private String consequence;
     private LocalDateTime createTime;//创建时间
     private LocalDateTime updateTime;//更新时间
 }

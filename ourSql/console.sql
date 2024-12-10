@@ -120,7 +120,7 @@ create table madrs(
 create table consequence(
     id int unsigned primary key auto_increment comment 'ID',
     patient_id int unsigned comment '患者id',
-    `order` varchar(1024) default '' comment '医嘱',
+    consequence varchar(1024) default '' comment '医嘱',
     createTime datetime not null comment '创建时间',
     updateTime datetime not null comment '修改时间',
     constraint fk_p_id_3 foreign key (patient_id) references patient(id) on delete cascade on update cascade
