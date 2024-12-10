@@ -6,6 +6,7 @@ import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
 import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
+import lombok.NonNull;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -79,6 +80,12 @@ public interface UserMapper {
     @Select("select * from patient")
     List<Patient> findAllPatient();
 
+    @Select("select * from patient where doctor_id is null ")
+    List<Patient> getLastPatient();
+
+    @Update("update patient set doctor_id=#{doctor_id} where id=#{id}")
+    void choosePatient(Patient patient);
+
     //administrator
     @Select("select * from administrator where username=#{username}")
     Administrator findByAdministratorName(String username);
@@ -95,6 +102,7 @@ public interface UserMapper {
     @Select("select * from madrs where patient_id=#{patientId}")
     MADRS findMADRSByPatientId(int patientId);
 
-
-
+    //order(医嘱)
+    @Insert("insert into consequence(patient_id,consequence,createTime,updateTime)"+"values(#{id},#{order},now(),now())")
+    void addOrder(Integer id, String order);
 }

@@ -117,3 +117,11 @@ create table madrs(
                       madrs_10 int unsigned comment '第10问',
                       constraint fk_p_id_2 foreign key (patient_id) references patient(id) on delete cascade on update cascade -- 外键
 )comment '蒙哥马利抑郁评定量表';
+create table consequence(
+    id int unsigned primary key auto_increment comment 'ID',
+    patient_id int unsigned comment '患者id',
+    consequence varchar(1024) default '' comment '医嘱',
+    createTime datetime not null comment '创建时间',
+    updateTime datetime not null comment '修改时间',
+    constraint fk_p_id_3 foreign key (patient_id) references patient(id) on delete cascade on update cascade
+)comment '医嘱';
