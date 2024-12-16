@@ -1,6 +1,7 @@
 package com.Tc_traveler.PDSDS.mapper;
 
 import com.Tc_traveler.PDSDS.entity.Administrator;
+import com.Tc_traveler.PDSDS.entity.Consequence;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
@@ -83,7 +84,7 @@ public interface UserMapper {
     @Select("select * from patient where doctor_id is null ")
     List<Patient> getLastPatient();
 
-    @Update("update patient set doctor_id=#{doctor_id} where id=#{id}")
+    @Update("update patient set doctor_id=#{doctor_id},updateTime=now() where id=#{id}")
     void choosePatient(Patient patient);
 
     //administrator
@@ -105,4 +106,10 @@ public interface UserMapper {
     //order(医嘱)
     @Insert("insert into consequence(patient_id,consequence,createTime,updateTime)"+"values(#{id},#{order},now(),now())")
     void addOrder(Integer id, String order);
+
+    @Select("select * from consequence where patient_id=#{patientId}")
+    Consequence findConsequenceByPatientId(int patientId);
+
+    @Update("update consequence set consequence=#{order},updateTime=now() where patient_id=#{id}")
+    void updateOrder(@NonNull Integer id, String order);
 }

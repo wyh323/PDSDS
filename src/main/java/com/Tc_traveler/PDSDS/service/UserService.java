@@ -1,6 +1,7 @@
 package com.Tc_traveler.PDSDS.service;
 
 import com.Tc_traveler.PDSDS.entity.Administrator;
+import com.Tc_traveler.PDSDS.entity.Consequence;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
@@ -72,4 +73,8 @@ public interface UserService {
     void choosePatient(Patient patient);
 
     void addOrder(@NonNull Integer id, String order);
+
+    Consequence findConsequenceByPatientId(int patientId);
+
+    void updateOrder(@NonNull Integer id, String order);
 }

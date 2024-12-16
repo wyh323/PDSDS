@@ -1,6 +1,7 @@
 package com.Tc_traveler.PDSDS.controller;
 
 import com.Tc_traveler.PDSDS.dto.Result;
+import com.Tc_traveler.PDSDS.entity.Consequence;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.service.UserService;
@@ -84,6 +85,7 @@ public class DoctorController {
         patientDetail.add(userService.findSDSByPatientId(patient_id));
         patientDetail.add(userService.findCES_DByPatientId(patient_id));
         patientDetail.add(userService.findMADRSByPatientId(patient_id));
+        patientDetail.add(userService.findConsequenceByPatientId(patient_id));
         return Result.success(patientDetail);
     }
 
@@ -179,16 +181,22 @@ public class DoctorController {
     }
 
     @PostMapping("/addOrder")
-    public Result addOrder(@Pattern(regexp = "^\\S{1,15}$")String username,String order){
+    public Result addOrder(@RequestBody Map<String,Object> params){
         Map<String,Object> claims = ThreadLocalUtil.get();
         String security = (String) claims.get("security");
         if(!security.equals("Doctor")){
             return Result.error("您没有足够的权限访问");
         }
+        String username = (String) params.get("username");
+        String order = (String) params.get("order");
         Integer doctor_id = (Integer) claims.get("id");
         Patient patient = userService.findPatientByUsernameAndDoctorId(username,doctor_id);
         if(patient==null){
             return Result.error("您名下没有此患者");
+        }
+        Consequence consequence = userService.findConsequenceByPatientId(patient.getId());
+        if(consequence!=null){
+            userService.updateOrder(patient.getId(),order);
         }
         userService.addOrder(patient.getId(),order);
         return Result.success();

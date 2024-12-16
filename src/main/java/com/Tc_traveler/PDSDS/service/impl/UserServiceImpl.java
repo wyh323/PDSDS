@@ -1,6 +1,7 @@
 package com.Tc_traveler.PDSDS.service.impl;
 
 import com.Tc_traveler.PDSDS.entity.Administrator;
+import com.Tc_traveler.PDSDS.entity.Consequence;
 import com.Tc_traveler.PDSDS.entity.Doctor;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
@@ -206,6 +207,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addOrder(@NonNull Integer id, String order) {
         userMapper.addOrder(id,order);
+    }
+
+    @Override
+    public Consequence findConsequenceByPatientId(int patientId) {
+        return userMapper.findConsequenceByPatientId(patientId);
+    }
+
+    @Override
+    public void updateOrder(@NonNull Integer id, String order) {
+        userMapper.updateOrder(id,order);
     }
 
 
