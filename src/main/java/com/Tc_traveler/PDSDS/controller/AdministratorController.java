@@ -76,4 +76,31 @@ public class AdministratorController {
         userService.deleteDoctor(username);
         return Result.success();
     }
+
+    //所有备用医生 管理员进行审核
+    @GetMapping("/getAllDoctor_1")
+    public Result<List<Doctor>> getAllDoctor_1(){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Administrator")){
+            return Result.error("您没有足够的权限访问");
+        }
+        return userService.getAllDoctor_1();
+    }
+
+    @PostMapping("/check")
+    public Result check(String username){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Administrator")){
+            return Result.error("您没有足够的权限访问");
+        }
+        Doctor doctor = userService.findByDoctor_1Name(username);
+        if(doctor==null){
+            return Result.error("待审核的医生中没有此人");
+        }
+        userService.deleteDoctor_1(username);
+        userService.checkDoctor(doctor);
+        return Result.success();
+    }
 }

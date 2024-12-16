@@ -29,7 +29,8 @@ public class DoctorController {
     @PostMapping("/register")
     public Result register(@Pattern(regexp = "^\\S{1,15}$") String username, @Pattern(regexp = "^\\S{8,32}$") String password){
         Doctor doctor = userService.findByDoctorName(username);
-        if(doctor == null){
+        Doctor doctor_1 = userService.findByDoctor_1Name(username);
+        if(doctor == null&&doctor_1==null){
             userService.registerDoctor(username,password);
             return Result.success();
         }else {
@@ -40,6 +41,10 @@ public class DoctorController {
     @PostMapping("/login")
     public Result<String> login(String username,String password){
         Doctor doctor = userService.findByDoctorName(username);
+        Doctor doctor_1 = userService.findByDoctor_1Name(username);
+        if(doctor == null&&doctor_1 != null){
+            return Result.error("您的注册尚未通过");
+        }
         if(doctor == null){
             return Result.error("用户名不存在");
         }

@@ -1,5 +1,6 @@
 package com.Tc_traveler.PDSDS.mapper;
 
+import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Consequence;
 import com.Tc_traveler.PDSDS.entity.Doctor;
@@ -22,7 +23,7 @@ public interface UserMapper {
     @Select("select * from doctor where username=#{username}")
     Doctor findByDoctorName(String username);
 
-    @Insert("insert into doctor(username,password,createtime,updatetime)"+"values (#{username},#{password},now(),now())")
+    @Insert("insert into doctor_1(username,password,createtime,updatetime)"+"values (#{username},#{password},now(),now())")
     void addDoctor(String username, String password);
 
     @Select("select * from doctor")
@@ -39,6 +40,19 @@ public interface UserMapper {
 
     @Delete("delete from doctor where username=#{username}")
     void deleteDoctor(String username);
+
+    @Select("select * from doctor_1 where username=#{username}")
+    Doctor findByDoctor_1Name(String username);
+
+    @Select("select * from doctor_1")
+    Result<List<Doctor>> getAllDoctor_1();
+
+    @Delete("delete from doctor_1 where username=#{username}")
+    void deleteDoctor_1(String username);
+
+    @Insert("insert into doctor(username,password,createtime,updatetime)"+"values (#{username},#{password},createtime,now())")
+    void checkDoctor(Doctor doctor);
+
 
 
     //patient
@@ -87,6 +101,8 @@ public interface UserMapper {
     @Update("update patient set doctor_id=#{doctor_id},updateTime=now() where id=#{id}")
     void choosePatient(Patient patient);
 
+
+
     //administrator
     @Select("select * from administrator where username=#{username}")
     Administrator findByAdministratorName(String username);
@@ -112,4 +128,7 @@ public interface UserMapper {
 
     @Update("update consequence set consequence=#{order},updateTime=now() where patient_id=#{id}")
     void updateOrder(@NonNull Integer id, String order);
+
+
+
 }

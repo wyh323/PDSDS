@@ -1,5 +1,6 @@
 package com.Tc_traveler.PDSDS.service;
 
+import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Consequence;
 import com.Tc_traveler.PDSDS.entity.Doctor;
@@ -77,4 +78,12 @@ public interface UserService {
     Consequence findConsequenceByPatientId(int patientId);
 
     void updateOrder(@NonNull Integer id, String order);
+
+    Doctor findByDoctor_1Name(@Pattern(regexp = "^\\S{1,15}$") String username);
+
+    Result<List<Doctor>> getAllDoctor_1();
+
+    void deleteDoctor_1(String username);
+
+    void checkDoctor(Doctor doctor);
 }
