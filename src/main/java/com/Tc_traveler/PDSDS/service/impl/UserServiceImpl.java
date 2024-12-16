@@ -1,5 +1,6 @@
 package com.Tc_traveler.PDSDS.service.impl;
 
+import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Administrator;
 import com.Tc_traveler.PDSDS.entity.Consequence;
 import com.Tc_traveler.PDSDS.entity.Doctor;
@@ -217,6 +218,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateOrder(@NonNull Integer id, String order) {
         userMapper.updateOrder(id,order);
+    }
+
+    @Override
+    public Doctor findByDoctor_1Name(String username) {
+        return userMapper.findByDoctor_1Name(username);
+    }
+
+    @Override
+    public Result<List<Doctor>> getAllDoctor_1() {
+        return userMapper.getAllDoctor_1();
+    }
+
+    @Override
+    public void deleteDoctor_1(String username) {
+        userMapper.deleteDoctor_1(username);
+    }
+
+    @Override
+    public void checkDoctor(Doctor doctor) {
+        userMapper.checkDoctor(doctor);
     }
 
 
