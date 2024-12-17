@@ -137,3 +137,9 @@ create table consequence(
     updateTime datetime not null comment '修改时间',
     constraint fk_p_id_3 foreign key (patient_id) references patient(id) on delete cascade on update cascade
 )comment '医嘱';
+create table mail(
+    id int unsigned primary key auto_increment comment 'ID',
+    email varchar(256) default '' comment '医生邮箱',
+    token int unsigned comment '邮箱验证码',
+    createTime datetime not null comment '创建时间'
+)comment '邮箱验证';

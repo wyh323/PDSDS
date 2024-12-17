@@ -1,10 +1,7 @@
 package com.Tc_traveler.PDSDS.service.impl;
 
 import com.Tc_traveler.PDSDS.dto.Result;
-import com.Tc_traveler.PDSDS.entity.Administrator;
-import com.Tc_traveler.PDSDS.entity.Consequence;
-import com.Tc_traveler.PDSDS.entity.Doctor;
-import com.Tc_traveler.PDSDS.entity.Patient;
+import com.Tc_traveler.PDSDS.entity.*;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
 import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
@@ -238,6 +235,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public void checkDoctor(Doctor doctor) {
         userMapper.checkDoctor(doctor);
+    }
+
+    @Override
+    public Mail findMailByEmail(String email) {
+        return userMapper.findMailByEmail(email);
+    }
+
+    @Override
+    public void deleteMail(String email) {
+        userMapper.deleteMail(email);
+    }
+
+    @Override
+    public void resetPwd(String email, String newPwd) {
+        String md5Pwd = Md5Util.getMD5String(newPwd);
+        userMapper.resetPwd(email,md5Pwd);
     }
 
 

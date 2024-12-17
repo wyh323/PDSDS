@@ -1,10 +1,7 @@
 package com.Tc_traveler.PDSDS.mapper;
 
 import com.Tc_traveler.PDSDS.dto.Result;
-import com.Tc_traveler.PDSDS.entity.Administrator;
-import com.Tc_traveler.PDSDS.entity.Consequence;
-import com.Tc_traveler.PDSDS.entity.Doctor;
-import com.Tc_traveler.PDSDS.entity.Patient;
+import com.Tc_traveler.PDSDS.entity.*;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
 import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
@@ -52,6 +49,9 @@ public interface UserMapper {
 
     @Insert("insert into doctor(username,password,createtime,updatetime)"+"values (#{username},#{password},createtime,now())")
     void checkDoctor(Doctor doctor);
+
+    @Update("update doctor set password=#{md5Pwd},updateTime=now() where email=#{email}")
+    void resetPwd(String email, String md5Pwd);
 
 
 
@@ -129,6 +129,12 @@ public interface UserMapper {
     @Update("update consequence set consequence=#{order},updateTime=now() where patient_id=#{id}")
     void updateOrder(@NonNull Integer id, String order);
 
+    //mail
+    @Select("select * from mail where email=#{email}")
+    Mail findMailByEmail(String email);
+
+    @Delete("delete from mail where email=#{email}")
+    void deleteMail(String email);
 
 
 }

@@ -3,6 +3,7 @@ package com.Tc_traveler.PDSDS.controller;
 import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Consequence;
 import com.Tc_traveler.PDSDS.entity.Doctor;
+import com.Tc_traveler.PDSDS.entity.Mail;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
@@ -15,10 +16,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
 @RequestMapping("/doctor")
@@ -204,6 +203,31 @@ public class DoctorController {
             userService.updateOrder(patient.getId(),order);
         }
         userService.addOrder(patient.getId(),order);
+        return Result.success();
+    }
+
+    @PatchMapping("/resetPwd")
+    public Result resetPwd(@RequestBody Map<String,Object> params){
+        String email = (String) params.get("email");
+        Integer token = (Integer) params.get("token");
+        String newPwd = (String) params.get("newPwd");
+        String rePwd = (String) params.get("rePwd");
+        if(!newPwd.equals(rePwd)){
+            return Result.error("两次输入的密码不一样!");
+        }
+        Mail mail = userService.findMailByEmail(email);
+        if(mail == null){
+            return Result.error("您还未发送过验证码");
+        }
+        userService.deleteMail(email);
+        LocalDateTime createTime = mail.getCreateTime();
+        if(createTime.plusMinutes(5L).isBefore(LocalDateTime.now())){
+            return Result.error("验证码已经过期!请重新发送");
+        }
+        if(!token.equals(mail.getToken())){
+            return Result.error("验证码错误！请重新发送");
+        }
+        userService.resetPwd(email,newPwd);
         return Result.success();
     }
 }
