@@ -1,10 +1,7 @@
 package com.Tc_traveler.PDSDS.service;
 
 import com.Tc_traveler.PDSDS.dto.Result;
-import com.Tc_traveler.PDSDS.entity.Administrator;
-import com.Tc_traveler.PDSDS.entity.Consequence;
-import com.Tc_traveler.PDSDS.entity.Doctor;
-import com.Tc_traveler.PDSDS.entity.Patient;
+import com.Tc_traveler.PDSDS.entity.*;
 import com.Tc_traveler.PDSDS.entity.table.CES_D;
 import com.Tc_traveler.PDSDS.entity.table.MADRS;
 import com.Tc_traveler.PDSDS.entity.table.SDS;
@@ -86,4 +83,10 @@ public interface UserService {
     void deleteDoctor_1(String username);
 
     void checkDoctor(Doctor doctor);
+
+    Mail findMailByEmail(String email);
+
+    void deleteMail(String email);
+
+    void resetPwd(String email, String newPwd);
 }
