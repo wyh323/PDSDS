@@ -52,6 +52,13 @@ public class MADRS {
 
     public MADRS_BACK build() throws Exception {
         MADRS_BACK madrs_back = new MADRS_BACK();
+        madrs_back.setId(id);
+        madrs_back.setPatient_id(patient_id);
+        madrs_back.setPatient_nickname(patient_nickname);
+        madrs_back.setCreateTime(createTime);
+        madrs_back.setUpdateTime(updateTime);
+        madrs_back.setGrade(grade);
+        madrs_back.setResult(result);
         for(int i=1;i<=10;i++){
             Field field = this.getClass().getDeclaredField("madrs_" + i);
             field.setAccessible(true);

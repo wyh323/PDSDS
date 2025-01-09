@@ -47,7 +47,7 @@ public interface UserMapper {
     @Delete("delete from doctor_1 where username=#{username}")
     void deleteDoctor_1(String username);
 
-    @Insert("insert into doctor(username,password,createtime,updatetime)"+"values (#{username},#{password},createtime,now())")
+    @Insert("insert into doctor(username,password,createtime,updatetime)"+"values (#{username},#{password},#{createTime},now())")
     void checkDoctor(Doctor doctor);
 
     @Update("update doctor set password=#{md5Pwd},updateTime=now() where email=#{email}")
