@@ -2,9 +2,7 @@ package com.Tc_traveler.PDSDS.controller;
 
 import com.Tc_traveler.PDSDS.dto.Result;
 import com.Tc_traveler.PDSDS.entity.Patient;
-import com.Tc_traveler.PDSDS.entity.table.CES_D;
-import com.Tc_traveler.PDSDS.entity.table.MADRS;
-import com.Tc_traveler.PDSDS.entity.table.SDS;
+import com.Tc_traveler.PDSDS.entity.table.*;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
@@ -225,39 +223,53 @@ public class PatientController {
         } else if (sum<=34) {
             madrs.setResult("经过检测您为【重度抑郁】，为了您和家人的幸福，建议您联系我们，进行更专业的检测。");
         } else {
-            madrs.setResult("经过检测您为【极度抑郁】，为了您和家人的幸福，建议您联系我们，进行更专业的检测。（以上测试结果仅供参考）");
+            madrs.setResult("经过检测您为【极度抑郁】，为了您和家人的幸福，建议您联系我们，进行更专业的检测。");
         }
         userService.madrs(madrs);
         return Result.success();
     }
 
     @GetMapping("/getSds")
-    public Result<SDS> getSds(){
+    public Result<SDS_BACK> getSds(){
         Map<String,Object> claims = ThreadLocalUtil.get();
         String security = (String) claims.get("security");
         if(!security.equals("Patient")){
             return Result.error("您没有足够的权限访问");
         }
-        return Result.success(userService.findSDSByPatientId());
+        try {
+            return Result.success((userService.findSDSByPatientId()).build());
+        }catch (Exception e){
+            return Result.error("程序出现内部错误");
+        }
     }
 
     @GetMapping("/getCes_d")
-    public Result<CES_D> getCes_d(){
+    public Result<CES_D_BACK> getCes_d(){
         Map<String,Object> claims = ThreadLocalUtil.get();
         String security = (String) claims.get("security");
         if(!security.equals("Patient")){
             return Result.error("您没有足够的权限访问");
         }
-        return Result.success(userService.findCES_DByPatientId());
+        try {
+            return Result.success(userService.findCES_DByPatientId().build());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("程序出现内部错误");
+        }
     }
 
     @GetMapping("/getMadrs")
-    public Result<MADRS> getMadrs(){
+    public Result<MADRS_BACK> getMadrs(){
         Map<String,Object> claims = ThreadLocalUtil.get();
         String security = (String) claims.get("security");
         if(!security.equals("Patient")){
             return Result.error("您没有足够的权限访问");
         }
-        return Result.success(userService.findMADRSByPatientId());
+        try {
+            return Result.success(userService.findMADRSByPatientId().build());
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.error("程序出现内部错误");
+        }
     }
 }

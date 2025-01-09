@@ -78,7 +78,7 @@ public interface UserService {
 
     Doctor findByDoctor_1Name(@Pattern(regexp = "^\\S{1,15}$") String username);
 
-    Result<List<Doctor>> getAllDoctor_1();
+    List<Doctor> getAllDoctor_1();
 
     void deleteDoctor_1(String username);
 

@@ -42,7 +42,7 @@ public interface UserMapper {
     Doctor findByDoctor_1Name(String username);
 
     @Select("select * from doctor_1")
-    Result<List<Doctor>> getAllDoctor_1();
+    List<Doctor> getAllDoctor_1();
 
     @Delete("delete from doctor_1 where username=#{username}")
     void deleteDoctor_1(String username);

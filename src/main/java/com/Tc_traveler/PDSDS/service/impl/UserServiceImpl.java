@@ -223,7 +223,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result<List<Doctor>> getAllDoctor_1() {
+    public List<Doctor> getAllDoctor_1() {
         return userMapper.getAllDoctor_1();
     }
 

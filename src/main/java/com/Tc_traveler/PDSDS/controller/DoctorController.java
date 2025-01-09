@@ -86,9 +86,14 @@ public class DoctorController {
         ArrayList<Object> patientDetail = new ArrayList<>();
         int patient_id = patient.getId();
         patientDetail.add(patient);
-        patientDetail.add(userService.findSDSByPatientId(patient_id));
-        patientDetail.add(userService.findCES_DByPatientId(patient_id));
-        patientDetail.add(userService.findMADRSByPatientId(patient_id));
+        try {
+            patientDetail.add(userService.findSDSByPatientId(patient_id).build());
+            patientDetail.add(userService.findCES_DByPatientId(patient_id).build());
+            patientDetail.add(userService.findMADRSByPatientId(patient_id).build());
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.error("程序出现内部错误");
+        }
         patientDetail.add(userService.findConsequenceByPatientId(patient_id));
         return Result.success(patientDetail);
     }
@@ -209,9 +214,10 @@ public class DoctorController {
     @PatchMapping("/resetPwd")
     public Result resetPwd(@RequestBody Map<String,Object> params){
         String email = (String) params.get("email");
-        Integer token = (Integer) params.get("token");
+        String token_1 = (String) params.get("token");
         String newPwd = (String) params.get("newPwd");
         String rePwd = (String) params.get("rePwd");
+        Integer token = Integer.parseInt(token_1);
         if(!newPwd.equals(rePwd)){
             return Result.error("两次输入的密码不一样!");
         }

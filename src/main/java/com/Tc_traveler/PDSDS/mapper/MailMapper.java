@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface MailMapper {
 
-    @Select("select * from doctor where email=#{email}")
-    Doctor findByDoctorEmail(String email);
+    @Select("select * from doctor where email=#{email} and username=#{username}")
+    Doctor findDoctorByUsernameAndEmail(String username,String email);
 
     @Insert("insert into mail(email,token,createTime) "+"values (#{email},#{token},now())")
     void addMsg(String email, int token);

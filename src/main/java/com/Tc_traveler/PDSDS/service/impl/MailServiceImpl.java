@@ -28,8 +28,8 @@ public class MailServiceImpl implements MailService {
     private JavaMailSenderImpl mailSender;
 
     @Override
-    public Doctor findByDoctorEmail(String email) {
-        return mailMapper.findByDoctorEmail(email);
+    public Doctor findDoctorByUsernameAndEmail(String us,String email) {
+        return mailMapper.findDoctorByUsernameAndEmail(us,email);
     }
 
     @Override

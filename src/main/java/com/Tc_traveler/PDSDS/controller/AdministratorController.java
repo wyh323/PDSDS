@@ -85,7 +85,7 @@ public class AdministratorController {
         if(!security.equals("Administrator")){
             return Result.error("您没有足够的权限访问");
         }
-        return userService.getAllDoctor_1();
+        return Result.success(userService.getAllDoctor_1());
     }
 
     @PostMapping("/check")
