@@ -1,17 +1,19 @@
 package com.Tc_traveler.PDSDS.controller;
 
 import com.Tc_traveler.PDSDS.dto.Result;
-import com.Tc_traveler.PDSDS.entity.Administrator;
-import com.Tc_traveler.PDSDS.entity.Doctor;
-import com.Tc_traveler.PDSDS.entity.Patient;
+import com.Tc_traveler.PDSDS.entity.*;
+import com.Tc_traveler.PDSDS.service.AdviceService;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
 import com.Tc_traveler.PDSDS.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +21,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/administrator")
 public class AdministratorController {
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AdviceService adviceService;
 
     @PostMapping("/login")
     public Result<String> login(String username, String password){
@@ -103,4 +109,80 @@ public class AdministratorController {
         userService.checkDoctor(doctor);
         return Result.success();
     }
+
+    @PutMapping("/addAdvice")
+    public Result addAdvice(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("photo") MultipartFile photo){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Administrator")){
+            return Result.error("您没有足够的权限访问");
+        }
+        try {
+            adviceService.addAdvice(title,content,photo);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.error(e.getMessage());
+        }
+        return Result.success();
+    }
+
+    @GetMapping("/getAllAdvice")
+    public Result<List<AdviceBack>> getAllAdvice(){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Administrator")){
+            return Result.error("您没有足够的权限访问");
+        }
+        return Result.success(adviceService.getAllAdvice());
+    }
+
+    @GetMapping("/getAdvice")
+    public Result<Advice> getAdvice(@RequestParam("id")int id){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Administrator")){
+            return Result.error("您没有足够的权限访问");
+        }
+        Advice advice = adviceService.getAdvice(id);
+        if(advice==null){
+            return Result.error("您要找的文章已消失");
+        }
+        return Result.success(advice);
+    }
+
+    @DeleteMapping("/deleteAdvice")
+    public Result deleteAdvice(@RequestParam("id")int id){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Administrator")){
+            return Result.error("您没有足够的权限访问");
+        }
+        Advice advice = adviceService.getAdvice(id);
+        if(advice==null){
+            return Result.error("您要删除的文章不存在");
+        }
+        adviceService.deleteAdvice(id,advice.getPhoto());
+        return Result.success();
+    }
+
+    @PatchMapping("/updateAdvice")
+    public Result updateAdvice(@RequestParam("id") int id,@RequestParam("title") String title, @RequestParam("content") String content, @Nullable @RequestParam("photo") MultipartFile photo){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Administrator")){
+            return Result.error("您没有足够的权限访问");
+        }
+        Advice advice = adviceService.getAdvice(id);
+        if(advice==null){
+            return Result.error("您要修改的文章不存在");
+        }
+        try {
+            adviceService.updateAdvice(id,title,content,photo,advice);
+        }catch (IOException e) {
+            e.printStackTrace();
+            return Result.error(e.getMessage());
+        }
+        return Result.success();
+    }
+
 }

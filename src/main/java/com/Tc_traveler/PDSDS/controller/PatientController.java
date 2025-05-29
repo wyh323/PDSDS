@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -272,4 +274,39 @@ public class PatientController {
             return Result.error("程序出现内部错误");
         }
     }
+
+    @PostMapping("/uploadPics")
+    public Result uploadPics(@RequestParam("file1") MultipartFile file1,@RequestParam("file2") MultipartFile file2){
+        if(file1.isEmpty()||file2.isEmpty()){
+            return Result.error("请选择上传的图片");
+        }
+        String suffix1 = file1.getOriginalFilename().substring(file1.getOriginalFilename().lastIndexOf("."));
+        String suffix2 = file2.getOriginalFilename().substring(file2.getOriginalFilename().lastIndexOf("."));
+        String savePath = "D:\\uploadFolder\\";
+        File fileDir = new File(savePath);
+        if(!fileDir.exists()){
+            fileDir.mkdirs();
+        }
+        String fileName1 = savePath + "114514" + suffix1;
+        String fileName2 = savePath + "19198100" + suffix2;
+        try {
+            file1.transferTo(new File(fileName1));
+            file2.transferTo(new File(fileName2));
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.error("文件io正常");
+        }
+        return Result.success();
+    }
+
+//    @GetMapping("/provideAdvice")
+//    public Result provideAdvice(){
+//        Map<String,Object> claims = ThreadLocalUtil.get();
+//        String security = (String) claims.get("security");
+//        if(!security.equals("Patient")){
+//            return Result.error("您没有足够的权限访问");
+//        }
+//
+//    }
+
 }
