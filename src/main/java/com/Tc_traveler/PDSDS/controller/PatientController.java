@@ -1,8 +1,11 @@
 package com.Tc_traveler.PDSDS.controller;
 
 import com.Tc_traveler.PDSDS.dto.Result;
+import com.Tc_traveler.PDSDS.entity.Advice;
+import com.Tc_traveler.PDSDS.entity.AdviceBack;
 import com.Tc_traveler.PDSDS.entity.Patient;
 import com.Tc_traveler.PDSDS.entity.table.*;
+import com.Tc_traveler.PDSDS.service.AdviceService;
 import com.Tc_traveler.PDSDS.service.UserService;
 import com.Tc_traveler.PDSDS.utils.JwtUtil;
 import com.Tc_traveler.PDSDS.utils.Md5Util;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,6 +29,9 @@ import java.util.Map;
 public class PatientController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AdviceService adviceService;
 
     @PostMapping("/register")
     public Result register(@Pattern(regexp = "^\\S{1,15}$") String username, @Pattern(regexp = "^\\S{8,32}$") String password){
@@ -275,30 +282,6 @@ public class PatientController {
         }
     }
 
-    @PostMapping("/uploadPics")
-    public Result uploadPics(@RequestParam("file1") MultipartFile file1,@RequestParam("file2") MultipartFile file2){
-        if(file1.isEmpty()||file2.isEmpty()){
-            return Result.error("请选择上传的图片");
-        }
-        String suffix1 = file1.getOriginalFilename().substring(file1.getOriginalFilename().lastIndexOf("."));
-        String suffix2 = file2.getOriginalFilename().substring(file2.getOriginalFilename().lastIndexOf("."));
-        String savePath = "D:\\uploadFolder\\";
-        File fileDir = new File(savePath);
-        if(!fileDir.exists()){
-            fileDir.mkdirs();
-        }
-        String fileName1 = savePath + "114514" + suffix1;
-        String fileName2 = savePath + "19198100" + suffix2;
-        try {
-            file1.transferTo(new File(fileName1));
-            file2.transferTo(new File(fileName2));
-        }catch (Exception e){
-            e.printStackTrace();
-            return Result.error("文件io正常");
-        }
-        return Result.success();
-    }
-
 //    @GetMapping("/provideAdvice")
 //    public Result provideAdvice(){
 //        Map<String,Object> claims = ThreadLocalUtil.get();
@@ -308,5 +291,29 @@ public class PatientController {
 //        }
 //
 //    }
+    @GetMapping("/getAllAdvice")
+    public Result<List<AdviceBack>> getAllAdvice(){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
+        return Result.success(adviceService.getAllAdvice());
+    }
+
+    @GetMapping("/getAdvice")
+    public Result<Advice> getAdvice(@RequestParam("id")int id){
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String security = (String) map.get("security");
+        if(!security.equals("Patient")){
+            return Result.error("您没有足够的权限访问");
+        }
+        System.out.println(id);
+        Advice advice = adviceService.getAdvice(id);
+        if(advice==null){
+            return Result.error("您要找的文章已消失");
+        }
+        return Result.success(advice);
+    }
 
 }

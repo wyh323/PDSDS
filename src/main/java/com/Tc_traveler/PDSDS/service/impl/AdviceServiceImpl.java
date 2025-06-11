@@ -126,32 +126,34 @@ public class AdviceServiceImpl implements AdviceService {
 
     @Override
     public void updateAdvice(int id, String title, String content, MultipartFile photo, Advice advice) throws IOException {
-        if(title!=null){
+        if(title!=null&& !title.isEmpty()){
             adviceMapper.updateTitle(id,title);
         }
-        if(content!=null) {
+        if(content!=null&&!content.isEmpty()) {
             adviceMapper.updateContent(id,content);
         }
-        if(!photo.isEmpty()) {
-            String photoPath = advice.getPhoto();
-            String path = photoPath.substring(photoPath.indexOf("master/")+7);
-            String shaResult = getSha(path);
-            JSONObject jsonObject1 = JSONUtil.parseObj(shaResult);
-            String sha = jsonObject1.getStr("sha");
-            String JSONResult1 = deleteFile(path,sha);
-            jsonObject1 = JSONUtil.parseObj(JSONResult1);
-            if(jsonObject1.getObj("commit") == null){
-                throw new RuntimeException("删除图片失败");
+        if(photo!=null) {
+            if(!photo.isEmpty()) {
+                String photoPath = advice.getPhoto();
+                String path = photoPath.substring(photoPath.indexOf("master/")+7);
+                String shaResult = getSha(path);
+                JSONObject jsonObject1 = JSONUtil.parseObj(shaResult);
+                String sha = jsonObject1.getStr("sha");
+                String JSONResult1 = deleteFile(path,sha);
+                jsonObject1 = JSONUtil.parseObj(JSONResult1);
+                if(jsonObject1.getObj("commit") == null){
+                    throw new RuntimeException("删除图片失败");
+                }
+                String url = createUploadFileUrl(photo);
+                Map<String,Object> uploadBodyMap = getUploadBodyMap(photo.getBytes());
+                String JSONResult2 = HttpUtil.post(url,uploadBodyMap);
+                JSONObject jsonObject2 = JSONUtil.parseObj(JSONResult2);
+                if (jsonObject2.getObj("commit") == null){
+                    throw new RuntimeException("请求失败");
+                }
+                String newUrl = (String) JSONUtil.parseObj(jsonObject2.getObj("content")).getObj("download_url");
+                adviceMapper.updatePhoto(id,newUrl);
             }
-            String url = createUploadFileUrl(photo);
-            Map<String,Object> uploadBodyMap = getUploadBodyMap(photo.getBytes());
-            String JSONResult2 = HttpUtil.post(url,uploadBodyMap);
-            JSONObject jsonObject2 = JSONUtil.parseObj(JSONResult2);
-            if (jsonObject2.getObj("commit") == null){
-                throw new RuntimeException("请求失败");
-            }
-            String newUrl = (String) JSONUtil.parseObj(jsonObject2.getObj("content")).getObj("download_url");
-            adviceMapper.updatePhoto(id,newUrl);
         }
     }
     
